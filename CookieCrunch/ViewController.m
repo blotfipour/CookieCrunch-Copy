@@ -51,10 +51,13 @@
   self.scene.scaleMode = SKSceneScaleModeAspectFill;
 
   // Load the level. ALSO TRYING TO GET IT TO CHANGE LEVELS!?
-  self.level = [[RWTLevel alloc] initWithFile:[NSString stringWithFormat:@"Level_%lu", self.levelNumber]];
-  self.scene.level = self.level;
-  [self.scene addTiles];
-
+    [self loadLevel];
+}
+    - (void)loadLevel {
+        self.level = [[RWTLevel alloc] initWithFile:[NSString stringWithFormat:@"Level_%lu", self.levelNumber]];
+        self.scene.level = self.level;
+       [self.scene addTiles];
+    
   // This is the swipe handler. MyScene invokes this block whenever it
   // detects that the player performs a swipe.
   id block = ^(RWTSwap *swap) {
@@ -82,7 +85,7 @@
   
   // Present the scene.
   [skView presentScene:self.scene];
-
+    
   // Load and start background music.
   NSURL *url = [[NSBundle mainBundle] URLForResource:@"Mining by Moonlight" withExtension:@"mp3"];
   self.backgroundMusic = [[AVAudioPlayer alloc] initWithContentsOfURL:url error:nil];
@@ -91,7 +94,7 @@
 
   // Let's start the game!
     [self beginGame: self.levelNumber];
-}
+    }
 
 - (BOOL)shouldAutorotate
 {
@@ -195,7 +198,7 @@
   if (self.score >= self.level.targetScore) {
       self.levelNumber++;
       if (self.levelNumber >= 5)
-          self.levelNumber = 0;
+     self.levelNumber = 1;
 	  self.gameOverPanel.image = [UIImage imageNamed:@"LevelComplete"];
     [self showGameOver];
   } else if (self.movesLeft == 0) {
